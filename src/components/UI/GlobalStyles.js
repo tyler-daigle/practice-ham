@@ -5,6 +5,7 @@ const GlobalStyles = createGlobalStyle`
   * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
   }
   body {
     font-family: "Poppins", sans-serif;
@@ -12,6 +13,10 @@ const GlobalStyles = createGlobalStyle`
     background-image: url(${BubbleBackground});
     color: var(--primary-text-color);
     margin: 0;
+  }
+
+  p {
+    margin-bottom: 1rem;
   }
 `;
 
