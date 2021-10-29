@@ -25,7 +25,7 @@ const ExamChoice = ({ children }) => {
 export default function ExamSelector({ onExamChange }) {
   return (
     <div>
-      <PageSubTitle>Choose the exam you wish to practice.</PageSubTitle>
+      <PageSubTitle>Choose the exam you want to practice.</PageSubTitle>
       <ExamChoice>
         <ExamTitle>Technician</ExamTitle>
         <ExamDescription>
