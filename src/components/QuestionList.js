@@ -10,8 +10,8 @@ export default function QuestionList({ questionList }) {
     <QuestionListContainer>
       <ol>
         {questionList.map((question) => (
-          <li key={question.question_id}>
-            <Question question={question} />
+          <li key={question.fields.question_id}>
+            <Question question={question.fields} />
           </li>
         ))}
       </ol>

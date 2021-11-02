@@ -11,6 +11,8 @@ import GradingStatus from "./components/GradingStatus";
 import ExamStatus from "./components/ExamStatus";
 import ScreenController from "./components/ScreenController";
 import Exam from "./components/Exam";
+import testExamData from "./contentful/example_test";
+import contentfulClient from "./contentful/contentful";
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0);
@@ -41,21 +43,22 @@ export default function App() {
         choices: { choices: { a: 1, b: 2, c: 3, d: 4 } },
       },
     ];
-    setQuestionList(questions);
+    getQuestions();
   }, []);
 
-  // const getQuestion = (questionId) => {
-  //   contentfulClient
-  //     .getEntries({
-  //       content_type: "question",
-  //       "fields.question_id": questionId,
-  //     })
-  //     .then((entries) => {
-  //       console.log(entries.items[0].fields);
-  //       setCurrentQuestion(entries.items[0].fields);
-  //     })
-  //     .catch((e) => console.log(e));
-  // };
+  const getQuestions = () => {
+    contentfulClient
+      .getEntries({
+        content_type: "question",
+        "fields.question_id[in]": testExamData.join(","),
+      })
+      .then((entries) => {
+        console.log(entries);
+        console.log(`Got ${entries.items.length} questions.`);
+        setQuestionList(entries.items);
+      })
+      .catch((e) => console.log(e));
+  };
 
   const selectExam = (exam) => {
     setCurrentExam(exam);
