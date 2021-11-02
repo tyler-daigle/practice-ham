@@ -43,7 +43,7 @@ export default function ExamSelector({ onExamChange }) {
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto
           fuga numquam eius dolore.
         </ExamDescription>
-        <Button size="lg" onClick={() => onExamChange("general")}>
+        <Button size="lg" onClick={() => onExamChange("general")} disabled>
           General
         </Button>
       </ExamChoice>
@@ -55,7 +55,7 @@ export default function ExamSelector({ onExamChange }) {
           fuga numquam eius dolore maiores delectus, laudantium nam animi
           tempora minima omnis adipisci recusandae est iure.
         </ExamDescription>
-        <Button size="lg" onClick={() => onExamChange("extra")}>
+        <Button size="lg" onClick={() => onExamChange("extra")} disabled>
           Extra
         </Button>
       </ExamChoice>

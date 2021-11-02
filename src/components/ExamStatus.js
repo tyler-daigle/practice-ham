@@ -7,8 +7,8 @@ const SectionTitle = styled.h3`
 `;
 
 export default function ExamStatus({ currentExam }) {
-  const totalQuestions = 40;
-  const requiredCorrect = 30;
+  const totalQuestions = 35;
+  const requiredCorrect = 26;
 
   return (
     <Container>

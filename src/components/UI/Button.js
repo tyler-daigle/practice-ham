@@ -20,8 +20,13 @@ const Button = styled.button`
         return "1rem";
     }
   }};
+  cursor: pointer;
   &:active {
     background-color: #84b6b9;
+  }
+  &:disabled {
+    background-color: lightgrey;
+    cursor: default;
   }
 `;
 
