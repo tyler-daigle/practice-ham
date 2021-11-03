@@ -8,7 +8,7 @@ const Modal = styled.div`
   padding: 1rem;
   border-radius: 12px;
 
-  min-height: 150px;
+  min-height: 80px;
   border: solid 1px #e4e4e4;
   width: 50%;
   margin: 0 auto;
@@ -35,20 +35,32 @@ const progressAnimation = keyframes`
   }
 `;
 
-const Spinner = styled.div`
-  width: 50px;
-  height: 50px;
-  border: solid 5px black;
-  margin: 0 auto;
-  border-radius: 100%;
-  animation: ${progressAnimation} 1s infinite alternate-reverse;
+const SpinnerContainer = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
-export default function LoadingModal() {
+const Spinner = styled.div`
+  width: 15px;
+  height: 15px;
+  /* border: solid 1px black; */
+  margin-right: 10px;
+  border-radius: 100%;
+  animation: ${progressAnimation} 0.5s infinite alternate-reverse;
+  animation-delay: ${(props) => `${props.interval}s`};
+  display: inline-block;
+  background-color: ${(props) => props.backgroundColor || "black"};
+`;
+
+export default function LoadingModal({ loadingMessage }) {
   return (
     <Modal>
-      <LoadingText>Loading something...</LoadingText>
-      <Spinner />
+      <LoadingText>{loadingMessage}</LoadingText>
+      <SpinnerContainer>
+        <Spinner interval={0} backgroundColor="blue" />
+        <Spinner interval={0.25} backgroundColor="red" />
+        <Spinner interval={0.5} backgroundColor="green" />
+      </SpinnerContainer>
     </Modal>
   );
 }

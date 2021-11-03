@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import AppContainer from "./components/UI/AppContainer";
 import MainHeader from "./components/UI/MainHeader";
@@ -12,45 +12,73 @@ import ScreenController from "./components/ScreenController";
 import Exam from "./components/Exam";
 import LoadingModal from "./components/LoadingModal";
 
-import testExamData from "./contentful/example_test";
+// import testExamData from "./contentful/example_test";
 import contentfulClient from "./contentful/contentful";
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState(0);
   const [currentExam, setCurrentExam] = useState();
-  const [gradeAsYouGo, setGradeAsYouGo] = useState(false);
   const [questionList, setQuestionList] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState();
 
-  useEffect(() => {
-    getQuestions();
-  }, []);
-
-  const selectExam = (exam) => {
-    // set the loading message
+  const selectExam = async (exam) => {
+    // show the loading message
+    setLoadingMessage("Generating your exam...");
+    setIsLoading(true);
 
     // set the name of the current exam
-    // grab the questions from contentful
-    // randomly select one of the tests
-
     setCurrentExam(exam);
-    setCurrentScreen(1);
+
+    // randomly select one of the tests
+    const testChoices = await contentfulClient
+      .getEntries({
+        content_type: "exam",
+        select: "fields.exam_id",
+      })
+      .then((entries) => entries.items);
+
+    const randomTest = Math.floor(testChoices.length * Math.random());
+    const examId = testChoices[randomTest].fields.exam_id;
+
+    // now get the actual list of questions
+    const ql = await contentfulClient
+      .getEntries({
+        content_type: "exam",
+        "fields.exam_id": examId,
+        select: "fields.question_list",
+      })
+      .then((entries) => entries.items[0].fields.question_list);
+
+    // ql is now an array of question IDs that can be grabbed from contentful
+
+    try {
+      // grab the questions from contentful
+      const questions = await getQuestions(ql);
+
+      // set questionList which is the list of questions that
+      // will be sent to the Exam component.
+      setQuestionList(questions);
+      setIsLoading(false);
+      setCurrentScreen(1);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
-  const getQuestions = (questionList) => {
-    const questions = questionList || testExamData;
-
-    // contentfulClient
-    //   .getEntries({
-    //     content_type: "question",
-    //     "fields.question_id[in]": questions.join(","),
-    //   })
-    //   .then((entries) => {
-    //     console.log(entries);
-    //     console.log(`Got ${entries.items.length} questions.`);
-    //     setQuestionList(entries.items);
-    //   })
-    //   .catch((e) => console.log(e));
+  const getQuestions = (questions) => {
+    return contentfulClient
+      .getEntries({
+        content_type: "question",
+        "fields.question_id[in]": questions.join(","),
+      })
+      .then((entries) => {
+        console.log(entries);
+        console.log(`Got ${entries.items.length} questions.`);
+        setQuestionList(entries.items);
+        return entries.items;
+      })
+      .catch((e) => console.log(e));
   };
 
   // getCurrentScreen() is a simple router that just returns
@@ -85,14 +113,14 @@ export default function App() {
         )}
         <AppContainer>
           {getCurrentScreen()}
-          {currentScreen !== 0 && (
+          {currentScreen === 1 && (
             <ScreenController
               currentScreen={currentScreen}
               nextScreen={() => setCurrentScreen(currentScreen + 1)}
               prevScreen={() => setCurrentScreen(currentScreen - 1)}
             />
           )}
-          {isLoading && <LoadingModal />}
+          {isLoading && <LoadingModal loadingMessage={loadingMessage} />}
         </AppContainer>
       </CSSVariables>
     </>
