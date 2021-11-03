@@ -7,10 +7,11 @@ import CSSVariables from "./components/UI/CSSVariables";
 import GlobalStyles from "./components/UI/GlobalStyles";
 
 import ExamSelector from "./components/ExamSelector";
-import GradingStatus from "./components/GradingStatus";
 import ExamStatus from "./components/ExamStatus";
 import ScreenController from "./components/ScreenController";
 import Exam from "./components/Exam";
+import LoadingModal from "./components/LoadingModal";
+
 import testExamData from "./contentful/example_test";
 import contentfulClient from "./contentful/contentful";
 
@@ -19,65 +20,47 @@ export default function App() {
   const [currentExam, setCurrentExam] = useState();
   const [gradeAsYouGo, setGradeAsYouGo] = useState(false);
   const [questionList, setQuestionList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const questions = [
-      {
-        question_id: 1,
-        question_text: "First Question",
-        choices: { choices: { a: 1, b: 2, c: 3, d: 4 } },
-      },
-      {
-        question_id: 2,
-        question_text: "Second Question",
-        choices: { choices: { a: 1, b: 2, c: 3, d: 4 } },
-      },
-      {
-        question_id: 3,
-        question_text: "Third Question",
-        choices: { choices: { a: 1, b: 2, c: 3, d: 4 } },
-      },
-      {
-        question_id: 4,
-        question_text: "Fourth Question",
-        choices: { choices: { a: 1, b: 2, c: 3, d: 4 } },
-      },
-    ];
     getQuestions();
   }, []);
 
-  const getQuestions = () => {
-    contentfulClient
-      .getEntries({
-        content_type: "question",
-        "fields.question_id[in]": testExamData.join(","),
-      })
-      .then((entries) => {
-        console.log(entries);
-        console.log(`Got ${entries.items.length} questions.`);
-        setQuestionList(entries.items);
-      })
-      .catch((e) => console.log(e));
-  };
-
   const selectExam = (exam) => {
+    // set the loading message
+
+    // set the name of the current exam
+    // grab the questions from contentful
+    // randomly select one of the tests
+
     setCurrentExam(exam);
     setCurrentScreen(1);
-    // setExamSelected(true);
   };
 
+  const getQuestions = (questionList) => {
+    const questions = questionList || testExamData;
+
+    // contentfulClient
+    //   .getEntries({
+    //     content_type: "question",
+    //     "fields.question_id[in]": questions.join(","),
+    //   })
+    //   .then((entries) => {
+    //     console.log(entries);
+    //     console.log(`Got ${entries.items.length} questions.`);
+    //     setQuestionList(entries.items);
+    //   })
+    //   .catch((e) => console.log(e));
+  };
+
+  // getCurrentScreen() is a simple router that just returns
+  // the component based on the value of currentScreen.
   const getCurrentScreen = () => {
     switch (currentScreen) {
       case 0:
         return <ExamSelector onExamChange={selectExam} />;
+
       case 1:
-        return (
-          <GradingStatus
-            gradeAsYouGo={gradeAsYouGo}
-            setGradeAsYouGo={setGradeAsYouGo}
-          />
-        );
-      case 2:
         return <ExamStatus currentExam={currentExam} />;
 
       default:
@@ -109,6 +92,7 @@ export default function App() {
               prevScreen={() => setCurrentScreen(currentScreen - 1)}
             />
           )}
+          {isLoading && <LoadingModal />}
         </AppContainer>
       </CSSVariables>
     </>
