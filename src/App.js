@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import store from "./app/store";
+import { Provider } from "react-redux";
+
 import AppContainer from "./components/UI/AppContainer";
 import MainHeader from "./components/UI/MainHeader";
 import PageHeader from "./components/UI/PageHeader";
@@ -30,7 +33,7 @@ export default function App() {
     // set the name of the current exam
     setCurrentExam(exam);
 
-    // randomly select one of the tests
+    // randomly select one of the tests and return the list of IDs
     const testChoices = await contentfulClient
       .getEntries({
         content_type: "exam",
@@ -102,27 +105,29 @@ export default function App() {
 
   return (
     <>
-      <GlobalStyles dark />
-      <CSSVariables>
-        {currentScreen === 0 ? (
-          <MainHeader />
-        ) : (
-          <PageHeader>
-            <h1>Page Header</h1>
-          </PageHeader>
-        )}
-        <AppContainer>
-          {getCurrentScreen()}
-          {currentScreen === 1 && (
-            <ScreenController
-              currentScreen={currentScreen}
-              nextScreen={() => setCurrentScreen(currentScreen + 1)}
-              prevScreen={() => setCurrentScreen(currentScreen - 1)}
-            />
+      <Provider store={store}>
+        <GlobalStyles dark />
+        <CSSVariables>
+          {currentScreen === 0 ? (
+            <MainHeader />
+          ) : (
+            <PageHeader>
+              <h1>Page Header</h1>
+            </PageHeader>
           )}
-          {isLoading && <LoadingModal loadingMessage={loadingMessage} />}
-        </AppContainer>
-      </CSSVariables>
+          <AppContainer>
+            {getCurrentScreen()}
+            {currentScreen === 1 && (
+              <ScreenController
+                currentScreen={currentScreen}
+                nextScreen={() => setCurrentScreen(currentScreen + 1)}
+                prevScreen={() => setCurrentScreen(currentScreen - 1)}
+              />
+            )}
+            {isLoading && <LoadingModal loadingMessage={loadingMessage} />}
+          </AppContainer>
+        </CSSVariables>
+      </Provider>
     </>
   );
 }
