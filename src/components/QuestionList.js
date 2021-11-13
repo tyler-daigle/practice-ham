@@ -1,3 +1,5 @@
+import { useDispatch } from "react-redux";
+import { answerQuestion } from "../app/action_creators";
 import styled from "styled-components";
 import Question from "./Question";
 
@@ -6,8 +8,10 @@ const QuestionListContainer = styled.div`
 `;
 
 export default function QuestionList({ questionList }) {
+  const dispatch = useDispatch();
+
   const onAnswerChange = (questionId, val) => {
-    console.log(questionId, val);
+    dispatch(answerQuestion(questionId, val));
   };
 
   return (
