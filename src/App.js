@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-import store from "./app/store";
-import { Provider } from "react-redux";
+// Redux
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentExam, setQuestionList } from "./app/dispatchers";
 
 import AppContainer from "./components/UI/AppContainer";
 import MainHeader from "./components/UI/MainHeader";
@@ -15,23 +16,44 @@ import ScreenController from "./components/ScreenController";
 import Exam from "./components/Exam";
 import LoadingModal from "./components/LoadingModal";
 
-// import testExamData from "./contentful/example_test";
 import contentfulClient from "./contentful/contentful";
 
 export default function App() {
+  // component state
   const [currentScreen, setCurrentScreen] = useState(0);
-  const [currentExam, setCurrentExam] = useState();
-  const [questionList, setQuestionList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setLoadingMessage] = useState();
 
+  // redux state
+  const currentExam = useSelector((state) => state.currentExam);
+  const questionList = useSelector((state) => state.questionList);
+  const dispatch = useDispatch();
+
+  // const [questionList, setQuestionList] = useState([]);
+
+  /*********************************************************************
+   *
+   * selectExam()
+   *
+   * Gets the list of available exams from Contentful and then randomly
+   * chooses one of the exams.
+   *
+   * After getting the ID of the exam it will then get the list of
+   * questions for that exam from contentful.
+   *
+   *********************************************************************/
+  // TODO: move all of these functions that use contentful to different file
+  // TODO: Add answered questions to redux store.
   const selectExam = async (exam) => {
     // show the loading message
     setLoadingMessage("Generating your exam...");
     setIsLoading(true);
 
     // set the name of the current exam
-    setCurrentExam(exam);
+    dispatch(setCurrentExam(exam));
+
+    // TODO: add conditional for selecting the questions based on exam
+    // name. such as general, technician or extra.
 
     // randomly select one of the tests and return the list of IDs
     const testChoices = await contentfulClient
@@ -61,13 +83,23 @@ export default function App() {
 
       // set questionList which is the list of questions that
       // will be sent to the Exam component.
-      setQuestionList(questions);
+
+      // TODO: strip out all the unused fields from Contentful that are in the question objects
+      dispatch(setQuestionList(questions));
       setIsLoading(false);
       setCurrentScreen(1);
     } catch (e) {
       console.log(e);
     }
   };
+
+  /*******************************************************************
+   *
+   * getQuestions() takes an array of question IDs and gets the
+   * questions from Contentful. It returns a promise that will resolve
+   * to an array of the question objects.
+   *
+   *******************************************************************/
 
   const getQuestions = (questions) => {
     return contentfulClient
@@ -78,7 +110,6 @@ export default function App() {
       .then((entries) => {
         console.log(entries);
         console.log(`Got ${entries.items.length} questions.`);
-        setQuestionList(entries.items);
         return entries.items;
       })
       .catch((e) => console.log(e));
@@ -105,29 +136,27 @@ export default function App() {
 
   return (
     <>
-      <Provider store={store}>
-        <GlobalStyles dark />
-        <CSSVariables>
-          {currentScreen === 0 ? (
-            <MainHeader />
-          ) : (
-            <PageHeader>
-              <h1>Page Header</h1>
-            </PageHeader>
+      <GlobalStyles dark />
+      <CSSVariables>
+        {currentScreen === 0 ? (
+          <MainHeader />
+        ) : (
+          <PageHeader>
+            <h1>Page Header</h1>
+          </PageHeader>
+        )}
+        <AppContainer>
+          {getCurrentScreen()}
+          {currentScreen === 1 && (
+            <ScreenController
+              currentScreen={currentScreen}
+              nextScreen={() => setCurrentScreen(currentScreen + 1)}
+              prevScreen={() => setCurrentScreen(currentScreen - 1)}
+            />
           )}
-          <AppContainer>
-            {getCurrentScreen()}
-            {currentScreen === 1 && (
-              <ScreenController
-                currentScreen={currentScreen}
-                nextScreen={() => setCurrentScreen(currentScreen + 1)}
-                prevScreen={() => setCurrentScreen(currentScreen - 1)}
-              />
-            )}
-            {isLoading && <LoadingModal loadingMessage={loadingMessage} />}
-          </AppContainer>
-        </CSSVariables>
-      </Provider>
+          {isLoading && <LoadingModal loadingMessage={loadingMessage} />}
+        </AppContainer>
+      </CSSVariables>
     </>
   );
 }

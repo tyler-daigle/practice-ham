@@ -1,8 +1,20 @@
-import { configureStore } from "@reduxjs/toolkit";
-import examTypeReducer from "./examSlice";
+import { createStore } from "redux";
+import examReducer from "./reducers/examReducer";
 
-export default configureStore({
-  reducer: {
-    examType: examTypeReducer,
-  },
-});
+/* store for the exam data
+{
+  currentExam: "name of exam",
+  questionList: [], // array of all the questions
+  answeredQuestions: [
+    {questionId: "T1A0", answer: "C"}
+  ]
+}
+*/
+
+const store = createStore(
+  examReducer,
+  { currentExam: "", questionList: [], answerQuestions: [] },
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
+
+export default store;

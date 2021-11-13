@@ -8,10 +8,10 @@ const SectionTitle = styled.h3`
   text-align: center;
 `;
 
-export default function ExamStatus({ currentExam }) {
+export default function ExamStatus() {
   const totalQuestions = 35;
   const requiredCorrect = 26;
-  const examType = useSelector((state) => state.examType.value);
+  const examType = useSelector((state) => state.currentExam);
 
   return (
     <Container>
