@@ -2,23 +2,24 @@ import Actions from "../actions";
 
 function examReducer(state = {}, action) {
   switch (action.type) {
-    case Actions.SET_QUESTION_LIST:
+    case Actions.QUESTION_LIST_SET:
       return {
         ...state,
         questionList: action.payload,
       };
-    case Actions.SET_CURRENT_EXAM:
+    case Actions.CURRENT_EXAM_CHANGED:
       return {
         ...state,
         currentExam: action.payload,
       };
 
-    // TODO: When answering a question the array will have to be searched to find if the question has already been
-    // answered and the value just needs to be changed.
-    case Actions.ANSWER_QUESTION:
+    case Actions.QUESTION_ANSWERED:
       return {
         ...state,
-        answeredQuestions: [...state.answeredQuestions, action.payload],
+        answeredQuestions: {
+          ...state.answeredQuestions,
+          [action.payload.questionId]: action.payload.answer,
+        },
       };
     default:
       return state;

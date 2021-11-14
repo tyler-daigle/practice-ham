@@ -19,7 +19,7 @@ export const answerQuestion = (questionId, answer) => {
   // as well as the answer the user chose.
 
   return {
-    type: Actions.Q,
+    type: Actions.QUESTION_ANSWERED,
     payload: {
       questionId: questionId,
       answer: answer,

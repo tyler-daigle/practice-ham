@@ -14,6 +14,7 @@ export default function QuestionList({ questionList }) {
     dispatch(answerQuestion(questionId, val));
   };
 
+  // TODO: Add a prop to Question for the currently selected answer
   return (
     <QuestionListContainer>
       <ol>

@@ -5,9 +5,11 @@ import examReducer from "./reducers/examReducer";
 {
   currentExam: "name of exam",
   questionList: [], // array of all the questions
-  answeredQuestions: [
-    {questionId: "T1A0", answer: "C"}
-  ]
+  answeredQuestions: { // object with question IDs as keys and answers as property
+    TC1A0: "C",
+    TC1A1: "B"
+  }
+  
 }
 */
 
