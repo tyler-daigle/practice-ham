@@ -13,3 +13,16 @@ export const setCurrentExam = (examName) => {
     payload: examName,
   };
 };
+
+export const answerQuestion = (questionId, answer) => {
+  // questionData is an object that contains the ID of the answered question
+  // as well as the answer the user chose.
+
+  return {
+    type: Actions.Q,
+    payload: {
+      questionId: questionId,
+      answer: answer,
+    },
+  };
+};

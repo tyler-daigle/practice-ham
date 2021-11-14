@@ -2,7 +2,7 @@ import { useState } from "react";
 
 // Redux
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentExam, setQuestionList } from "./app/dispatchers";
+import { setCurrentExam, setQuestionList } from "./app/action_creators";
 
 import AppContainer from "./components/UI/AppContainer";
 import MainHeader from "./components/UI/MainHeader";
@@ -67,6 +67,7 @@ export default function App() {
     const examId = testChoices[randomTest].fields.exam_id;
 
     // now get the actual list of questions
+    // TODO: contentful might return questions in a random order. Try to sort them based on sections.
     const ql = await contentfulClient
       .getEntries({
         content_type: "exam",
