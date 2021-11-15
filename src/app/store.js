@@ -1,4 +1,4 @@
-import { createStore } from "redux";
+import { createStore, bindActionCreators } from "redux";
 import examReducer from "./reducers/examReducer";
 
 /* store for the exam data

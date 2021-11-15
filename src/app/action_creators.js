@@ -1,4 +1,7 @@
+import { bindActionCreators } from "redux";
+
 import Actions from "./actions";
+import store from "./store";
 
 export const setQuestionList = (questionList) => {
   return {
@@ -26,3 +29,14 @@ export const answerQuestion = (questionId, answer) => {
     },
   };
 };
+
+const ActionCreators = bindActionCreators(
+  {
+    setQuestionList,
+    setCurrentExam,
+    answerQuestion,
+  },
+  store.dispatch
+);
+
+export default ActionCreators;
