@@ -1,8 +1,14 @@
 import { useState } from "react";
 
 // Redux
-import { useSelector } from "react-redux";
-import ActionCreators from "./app/action_creators";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  nextScreen,
+  prevScreen,
+  setCurrentExam,
+  setQuestionList,
+  setLoadingMessage,
+} from "./app/action_creators";
 
 import AppContainer from "./components/UI/AppContainer";
 import MainHeader from "./components/UI/MainHeader";
@@ -16,18 +22,19 @@ import ScreenController from "./components/ScreenController";
 import Exam from "./components/Exam";
 import LoadingModal from "./components/LoadingModal";
 
-import contentfulClient, { Contentful } from "./contentful/contentful";
-
 export default function App() {
   // component state
-  const [currentScreen, setCurrentScreen] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState();
+  // const [currentScreen, setCurrentScreen] = useState(0);
+  // const [loadingMessage, setLoadingMessage] = useState();
 
   // redux state
+  const currentScreen = useSelector((state) => state.currentScreen);
+  const loadingMessage = useSelector((state) => state.loadingMessage);
+  const isLoading = useSelector((state) => state.isLoading);
   const currentExam = useSelector((state) => state.currentExam);
   const questionList = useSelector((state) => state.questionList);
 
+  const dispatch = useDispatch();
   // const [questionList, setQuestionList] = useState([]);
 
   /*********************************************************************
@@ -47,41 +54,15 @@ export default function App() {
     // show the loading message
 
     // TODO: move this state into redux
-    setLoadingMessage("Generating your exam...");
-    setIsLoading(true);
+    dispatch(setLoadingMessage("Generating your exam..."));
 
     // set the name of the current exam
-    ActionCreators.setCurrentExam(exam);
+    dispatch(setCurrentExam(exam));
 
     // TODO: add conditional for selecting the questions based on exam
     // name. such as general, technician or extra.
 
-    const testChoices = await Contentful.getTestChoices("Technician");
-
-    // randomly select one of the returned tests
-    const randomTest = Math.floor(testChoices.length * Math.random());
-
-    // need the ID of the exam to get the question list from Contentful
-    const examId = testChoices[randomTest].fields.exam_id;
-
-    const ql = await Contentful.getExamQuestionIds(examId);
-    // ql is now an array of question IDs that can be grabbed from contentful
-
-    try {
-      // grab the questions from contentful
-      const questions = await Contentful.getQuestions(ql);
-
-      // set questionList which is the list of questions that
-      // will be sent to the Exam component.
-
-      // TODO: strip out all the unused fields from Contentful that are in the question objects
-      // dispatch(setQuestionList(questions));
-      ActionCreators.setQuestionList(questions);
-      setIsLoading(false);
-      setCurrentScreen(1);
-    } catch (e) {
-      console.log(e);
-    }
+    dispatch(setQuestionList(currentExam));
   };
 
   // getCurrentScreen() is a simple router that just returns
@@ -120,8 +101,8 @@ export default function App() {
           {currentScreen === 1 && (
             <ScreenController
               currentScreen={currentScreen}
-              nextScreen={() => setCurrentScreen(currentScreen + 1)}
-              prevScreen={() => setCurrentScreen(currentScreen - 1)}
+              nextScreen={() => dispatch(nextScreen())}
+              prevScreen={() => dispatch(prevScreen())}
             />
           )}
           {isLoading && <LoadingModal loadingMessage={loadingMessage} />}

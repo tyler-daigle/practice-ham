@@ -1,5 +1,6 @@
-import { createStore, bindActionCreators } from "redux";
+import { createStore, applyMiddleware, compose } from "redux";
 import examReducer from "./reducers/examReducer";
+import thunk from "redux-thunk";
 
 /* store for the exam data
 {
@@ -15,8 +16,18 @@ import examReducer from "./reducers/examReducer";
 
 const store = createStore(
   examReducer,
-  { currentExam: "", questionList: [], answeredQuestions: [] },
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  {
+    currentExam: "",
+    questionList: [],
+    answeredQuestions: [],
+    isLoading: false,
+    currentScreen: 0,
+    loadingMessage: "",
+  },
+  compose(
+    applyMiddleware(thunk),
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  )
 );
 
 export default store;
