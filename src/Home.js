@@ -1,6 +1,7 @@
 // move app stuff into here
 // Redux
-import { useSelector, useDispatch } from "react-redux";
+
+import { connect } from "react-redux";
 import {
   nextScreen,
   prevScreen,
@@ -21,15 +22,22 @@ import ScreenController from "./components/ScreenController";
 import Exam from "./components/Exam";
 import LoadingModal from "./components/LoadingModal";
 
-export default function Home() {
+function Home({
+  currentScreen,
+  loadingMessage,
+  isLoading,
+  currentExam,
+  questionList,
+  dispatch,
+}) {
   // redux state
-  const currentScreen = useSelector((state) => state.currentScreen);
-  const loadingMessage = useSelector((state) => state.loadingMessage);
-  const isLoading = useSelector((state) => state.isLoading);
-  const currentExam = useSelector((state) => state.currentExam);
-  const questionList = useSelector((state) => state.questionList);
+  // const currentScreen = useSelector((state) => state.currentScreen);
+  // const loadingMessage = useSelector((state) => state.loadingMessage);
+  // const isLoading = useSelector((state) => state.isLoading);
+  // const currentExam = useSelector((state) => state.currentExam);
+  // const questionList = useSelector((state) => state.questionList);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   /*********************************************************************
    *
@@ -104,3 +112,13 @@ export default function Home() {
     </>
   );
 }
+const mapStateToProps = (state) => ({
+  currentScreen: state.currentScreen,
+  loadingMessage: state.loadingMessage,
+  isLoading: state.isLoading,
+  currentExam: state.currentExam,
+  questionList: state.questionList,
+});
+
+const HomeScreen = connect(mapStateToProps)(Home);
+export default HomeScreen;
