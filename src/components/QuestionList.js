@@ -1,13 +1,20 @@
 import { connect } from "react-redux";
 import { answerQuestion } from "../app/action_creators";
-import styled from "styled-components";
 import Question from "./Question";
+
+import styled from "styled-components";
+import Button from "./UI/Button";
 
 const QuestionListContainer = styled.div`
   padding: 1rem;
 `;
 
-function QuestionList({ questionList, dispatch }) {
+const SubmitTestContainer = styled.div`
+  padding-top: 1rem;
+  border-top: solid 1px black;
+`;
+
+function QuestionList({ questionList, answeredQuestions, dispatch }) {
   // handler for when an answer is selected
   const onAnswerChange = (questionId, val) => {
     dispatch(answerQuestion(questionId, val));
@@ -26,9 +33,14 @@ function QuestionList({ questionList, dispatch }) {
           </li>
         ))}
       </ol>
+      <SubmitTestContainer>
+        <Button type="button">Submit Test</Button>
+      </SubmitTestContainer>
     </QuestionListContainer>
   );
 }
 
-const QuestionListSelector = (state) => ({ questionList: state.questionList });
+const QuestionListSelector = (state) => ({
+  answeredQuestions: state.answeredQuestions,
+});
 export default connect(QuestionListSelector)(QuestionList);

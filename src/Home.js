@@ -30,15 +30,6 @@ function Home({
   questionList,
   dispatch,
 }) {
-  // redux state
-  // const currentScreen = useSelector((state) => state.currentScreen);
-  // const loadingMessage = useSelector((state) => state.loadingMessage);
-  // const isLoading = useSelector((state) => state.isLoading);
-  // const currentExam = useSelector((state) => state.currentExam);
-  // const questionList = useSelector((state) => state.questionList);
-
-  // const dispatch = useDispatch();
-
   /*********************************************************************
    *
    * selectExam()
@@ -52,17 +43,11 @@ function Home({
    *********************************************************************/
 
   const selectExam = async (exam) => {
-    // show the loading message
-
-    // TODO: move this state into redux
     dispatch(setLoadingMessage("Generating your exam..."));
-
-    // set the name of the current exam
     dispatch(setCurrentExam(exam));
 
     // TODO: add conditional for selecting the questions based on exam
     // name. such as general, technician or extra.
-
     dispatch(setQuestionList(currentExam));
   };
 
@@ -84,8 +69,6 @@ function Home({
         }
     }
   };
-  // TODO: create another component, something like <Home> and use that to connect redux rather
-  // than having everything in <App>
   return (
     <>
       <GlobalStyles dark />
