@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 // Redux
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -23,10 +21,6 @@ import Exam from "./components/Exam";
 import LoadingModal from "./components/LoadingModal";
 
 export default function App() {
-  // component state
-  // const [currentScreen, setCurrentScreen] = useState(0);
-  // const [loadingMessage, setLoadingMessage] = useState();
-
   // redux state
   const currentScreen = useSelector((state) => state.currentScreen);
   const loadingMessage = useSelector((state) => state.loadingMessage);
@@ -35,7 +29,6 @@ export default function App() {
   const questionList = useSelector((state) => state.questionList);
 
   const dispatch = useDispatch();
-  // const [questionList, setQuestionList] = useState([]);
 
   /*********************************************************************
    *
@@ -48,8 +41,7 @@ export default function App() {
    * questions for that exam from contentful.
    *
    *********************************************************************/
-  // TODO: move all of these functions that use contentful to different file
-  // TODO: Add answered questions to redux store.
+
   const selectExam = async (exam) => {
     // show the loading message
 
