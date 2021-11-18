@@ -1,3 +1,5 @@
+import { connect } from "react-redux";
+import { answerQuestion } from "../app/action_creators";
 import styled from "styled-components";
 import Question from "./Question";
 
@@ -5,11 +7,13 @@ const QuestionListContainer = styled.div`
   padding: 1rem;
 `;
 
-export default function QuestionList({ questionList }) {
+function QuestionList({ questionList, dispatch }) {
+  // handler for when an answer is selected
   const onAnswerChange = (questionId, val) => {
-    console.log(questionId, val);
+    dispatch(answerQuestion(questionId, val));
   };
 
+  // TODO: Add a prop to Question for the currently selected answer
   return (
     <QuestionListContainer>
       <ol>
@@ -25,3 +29,6 @@ export default function QuestionList({ questionList }) {
     </QuestionListContainer>
   );
 }
+
+const QuestionListSelector = (state) => ({ questionList: state.questionList });
+export default connect(QuestionListSelector)(QuestionList);

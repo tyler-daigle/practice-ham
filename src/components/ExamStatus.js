@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 import styled from "styled-components";
 import Container from "./UI/Container";
 
@@ -6,15 +8,16 @@ const SectionTitle = styled.h3`
   text-align: center;
 `;
 
-export default function ExamStatus({ currentExam }) {
+export default function ExamStatus() {
   const totalQuestions = 35;
   const requiredCorrect = 26;
+  const examType = useSelector((state) => state.currentExam);
 
   return (
     <Container>
-      <SectionTitle>You are taking the {currentExam} Exam.</SectionTitle>
+      <SectionTitle>You are taking the {examType} Exam.</SectionTitle>
       <p>
-        There are {totalQuestions} questions on the {currentExam} exam. You must
+        There are {totalQuestions} questions on the {examType} exam. You must
         get {requiredCorrect} questions correct in order to pass.
       </p>
 

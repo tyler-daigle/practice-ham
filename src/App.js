@@ -1,4 +1,12 @@
-import { useState } from "react";
+// Redux
+import { useSelector, useDispatch } from "react-redux";
+import {
+  nextScreen,
+  prevScreen,
+  setCurrentExam,
+  setQuestionList,
+  setLoadingMessage,
+} from "./app/action_creators";
 
 import AppContainer from "./components/UI/AppContainer";
 import MainHeader from "./components/UI/MainHeader";
@@ -12,73 +20,41 @@ import ScreenController from "./components/ScreenController";
 import Exam from "./components/Exam";
 import LoadingModal from "./components/LoadingModal";
 
-// import testExamData from "./contentful/example_test";
-import contentfulClient from "./contentful/contentful";
-
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState(0);
-  const [currentExam, setCurrentExam] = useState();
-  const [questionList, setQuestionList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState();
+  // redux state
+  const currentScreen = useSelector((state) => state.currentScreen);
+  const loadingMessage = useSelector((state) => state.loadingMessage);
+  const isLoading = useSelector((state) => state.isLoading);
+  const currentExam = useSelector((state) => state.currentExam);
+  const questionList = useSelector((state) => state.questionList);
+
+  const dispatch = useDispatch();
+
+  /*********************************************************************
+   *
+   * selectExam()
+   *
+   * Gets the list of available exams from Contentful and then randomly
+   * chooses one of the exams.
+   *
+   * After getting the ID of the exam it will then get the list of
+   * questions for that exam from contentful.
+   *
+   *********************************************************************/
 
   const selectExam = async (exam) => {
     // show the loading message
-    setLoadingMessage("Generating your exam...");
-    setIsLoading(true);
+
+    // TODO: move this state into redux
+    dispatch(setLoadingMessage("Generating your exam..."));
 
     // set the name of the current exam
-    setCurrentExam(exam);
+    dispatch(setCurrentExam(exam));
 
-    // randomly select one of the tests
-    const testChoices = await contentfulClient
-      .getEntries({
-        content_type: "exam",
-        select: "fields.exam_id",
-      })
-      .then((entries) => entries.items);
+    // TODO: add conditional for selecting the questions based on exam
+    // name. such as general, technician or extra.
 
-    const randomTest = Math.floor(testChoices.length * Math.random());
-    const examId = testChoices[randomTest].fields.exam_id;
-
-    // now get the actual list of questions
-    const ql = await contentfulClient
-      .getEntries({
-        content_type: "exam",
-        "fields.exam_id": examId,
-        select: "fields.question_list",
-      })
-      .then((entries) => entries.items[0].fields.question_list);
-
-    // ql is now an array of question IDs that can be grabbed from contentful
-
-    try {
-      // grab the questions from contentful
-      const questions = await getQuestions(ql);
-
-      // set questionList which is the list of questions that
-      // will be sent to the Exam component.
-      setQuestionList(questions);
-      setIsLoading(false);
-      setCurrentScreen(1);
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const getQuestions = (questions) => {
-    return contentfulClient
-      .getEntries({
-        content_type: "question",
-        "fields.question_id[in]": questions.join(","),
-      })
-      .then((entries) => {
-        console.log(entries);
-        console.log(`Got ${entries.items.length} questions.`);
-        setQuestionList(entries.items);
-        return entries.items;
-      })
-      .catch((e) => console.log(e));
+    dispatch(setQuestionList(currentExam));
   };
 
   // getCurrentScreen() is a simple router that just returns
@@ -99,7 +75,8 @@ export default function App() {
         }
     }
   };
-
+  // TODO: create another component, something like <Home> and use that to connect redux rather
+  // than having everything in <App>
   return (
     <>
       <GlobalStyles dark />
@@ -116,8 +93,8 @@ export default function App() {
           {currentScreen === 1 && (
             <ScreenController
               currentScreen={currentScreen}
-              nextScreen={() => setCurrentScreen(currentScreen + 1)}
-              prevScreen={() => setCurrentScreen(currentScreen - 1)}
+              nextScreen={() => dispatch(nextScreen())}
+              prevScreen={() => dispatch(prevScreen())}
             />
           )}
           {isLoading && <LoadingModal loadingMessage={loadingMessage} />}
