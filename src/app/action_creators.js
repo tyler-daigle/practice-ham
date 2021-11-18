@@ -20,19 +20,29 @@ export const setQuestionList = (currentExam) => {
     let questionList = await Contentful.getQuestions(ql);
 
     // strip out all the contentful stuff not needed
-    questionList = questionList.map(question => {
-      return {...question.fields}
+    questionList = questionList.map((question) => {
+      return { ...question.fields };
     });
 
     // generate the answer list
-    // answerList =[{ "QuestionID" : "Correct Answer"}];
+    // answerList { "QuestionID" : "Correct Answer"};
 
-
+    const answerList = {};
+    questionList.forEach((question) => {
+      answerList[question.question_id] = question.answer;
+    });
+    console.log(answerList);
 
     dispatch({
       type: Actions.QUESTION_LIST_SET,
       payload: questionList,
     });
+
+    dispatch({
+      type: Actions.ANSWER_LIST_SET,
+      payload: answerList,
+    });
+
     dispatch(loadingDone());
     dispatch(nextScreen());
   };
@@ -41,13 +51,13 @@ export const setQuestionList = (currentExam) => {
 export const setCurrentExam = (examName) => {
   const examData = {};
 
-  switch(examName) {
-    case ExamTypes.TECHNICIAN:    
+  switch (examName) {
+    case ExamTypes.TECHNICIAN:
       examData.examName = ExamTypes.TECHNICIAN;
       examData.numQuestions = 35;
       examData.passingScore = 26;
       break;
-    case ExamTypes.GENERAL: 
+    case ExamTypes.GENERAL:
       examData.examName = ExamTypes.GENERAL;
       examData.numQuestions = 35;
       examData.passingScore = 26;
@@ -59,7 +69,7 @@ export const setCurrentExam = (examName) => {
       break;
     default:
       break;
-  };
+  }
 
   return {
     type: Actions.CURRENT_EXAM_CHANGED,

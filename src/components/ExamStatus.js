@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-
 import styled from "styled-components";
 import Container from "./UI/Container";
 
@@ -7,8 +5,6 @@ const SectionTitle = styled.h3`
   margin-bottom: 1rem;
   text-align: center;
 `;
-
-// TODO: replace the hooks with connect() (redux)
 
 export default function ExamStatus({ examData }) {
   const totalQuestions = 35;

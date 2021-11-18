@@ -56,6 +56,13 @@ function examReducer(state = {}, action) {
         currentScreen: state.currentScreen - 1,
       };
     }
+
+    case Actions.ANSWER_LIST_SET: {
+      return {
+        ...state,
+        answerList: { ...action.payload },
+      };
+    }
     default:
       return state;
   }

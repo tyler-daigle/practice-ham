@@ -21,6 +21,7 @@ import ExamStatus from "./components/ExamStatus";
 import ScreenController from "./components/ScreenController";
 import Exam from "./components/Exam";
 import LoadingModal from "./components/LoadingModal";
+import ExamResults from "./components/ExamResults";
 
 function Home({
   currentScreen,
@@ -64,6 +65,8 @@ function Home({
       case 2:
         return <Exam examData={currentExam} questionList={questionList} />;
 
+      case 3:
+        return <ExamResults />;
       default:
         return <h1>No more screens</h1>;
     }
@@ -76,7 +79,7 @@ function Home({
           <MainHeader />
         ) : (
           <PageHeader>
-            <h1>Page Header</h1>
+            <h1>Ham Exam Practice</h1>
           </PageHeader>
         )}
         <AppContainer>
