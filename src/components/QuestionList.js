@@ -25,11 +25,8 @@ function QuestionList({ questionList, answeredQuestions, dispatch }) {
     <QuestionListContainer>
       <ol>
         {questionList.map((question) => (
-          <li key={question.fields.question_id}>
-            <Question
-              question={question.fields}
-              onAnswerChange={onAnswerChange}
-            />
+          <li key={question.question_id}>
+            <Question question={question} onAnswerChange={onAnswerChange} />
           </li>
         ))}
       </ol>

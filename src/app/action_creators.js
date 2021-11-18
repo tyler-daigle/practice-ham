@@ -1,8 +1,11 @@
 import { Contentful } from "../contentful/contentful";
 import Actions from "./actions";
+import ExamTypes from "../util/examTypes";
 
-export const setQuestionList = (examName) => {
+export const setQuestionList = (currentExam) => {
   return async function (dispatch, getState) {
+    const examName = currentExam.examName;
+
     dispatch(loadingStarted());
     const testChoices = await Contentful.getTestChoices(examName);
 
@@ -14,7 +17,17 @@ export const setQuestionList = (examName) => {
 
     const ql = await Contentful.getExamQuestionIds(examId);
     // ql is now an array of question IDs that can be grabbed from contentful
-    const questionList = await Contentful.getQuestions(ql);
+    let questionList = await Contentful.getQuestions(ql);
+
+    // strip out all the contentful stuff not needed
+    questionList = questionList.map(question => {
+      return {...question.fields}
+    });
+
+    // generate the answer list
+    // answerList =[{ "QuestionID" : "Correct Answer"}];
+
+
 
     dispatch({
       type: Actions.QUESTION_LIST_SET,
@@ -26,9 +39,31 @@ export const setQuestionList = (examName) => {
 };
 
 export const setCurrentExam = (examName) => {
+  const examData = {};
+
+  switch(examName) {
+    case ExamTypes.TECHNICIAN:    
+      examData.examName = ExamTypes.TECHNICIAN;
+      examData.numQuestions = 35;
+      examData.passingScore = 26;
+      break;
+    case ExamTypes.GENERAL: 
+      examData.examName = ExamTypes.GENERAL;
+      examData.numQuestions = 35;
+      examData.passingScore = 26;
+      break;
+    case ExamTypes.EXTRA:
+      examData.examName = ExamTypes.EXTRA;
+      examData.numQuestions = 50;
+      examData.passingScore = 37;
+      break;
+    default:
+      break;
+  };
+
   return {
     type: Actions.CURRENT_EXAM_CHANGED,
-    payload: examName,
+    payload: examData,
   };
 };
 

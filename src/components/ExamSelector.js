@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import Button from "./UI/Button";
 import Container from "./UI/Container";
+import ExamTypes from "../util/examTypes";
 
 const PageSubTitle = styled.h2`
   color: var(--primary-text-color);
@@ -32,7 +33,7 @@ export default function ExamSelector({ onExamChange }) {
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto
           fuga numquam eius dolore maiores delectus.
         </ExamDescription>
-        <Button size="lg" onClick={() => onExamChange("technician")}>
+        <Button size="lg" onClick={() => onExamChange(ExamTypes.TECHNICIAN)}>
           Technician
         </Button>
       </ExamChoice>
@@ -43,7 +44,7 @@ export default function ExamSelector({ onExamChange }) {
           Lorem ipsum, dolor sit amet consectetur adipisicing elit. Architecto
           fuga numquam eius dolore.
         </ExamDescription>
-        <Button size="lg" onClick={() => onExamChange("general")} disabled>
+        <Button size="lg" onClick={() => onExamChange(ExamTypes.GENERAL)} disabled>
           General
         </Button>
       </ExamChoice>
@@ -55,7 +56,7 @@ export default function ExamSelector({ onExamChange }) {
           fuga numquam eius dolore maiores delectus, laudantium nam animi
           tempora minima omnis adipisci recusandae est iure.
         </ExamDescription>
-        <Button size="lg" onClick={() => onExamChange("extra")} disabled>
+        <Button size="lg" onClick={() => onExamChange(ExamTypes.EXTRA)} disabled>
           Extra
         </Button>
       </ExamChoice>

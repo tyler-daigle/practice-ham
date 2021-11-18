@@ -8,17 +8,19 @@ const SectionTitle = styled.h3`
   text-align: center;
 `;
 
-export default function ExamStatus() {
+// TODO: replace the hooks with connect() (redux)
+
+export default function ExamStatus({ examData }) {
   const totalQuestions = 35;
   const requiredCorrect = 26;
-  const examType = useSelector((state) => state.currentExam);
+  const { examName, numQuestions, passingScore } = examData;
 
   return (
     <Container>
-      <SectionTitle>You are taking the {examType} Exam.</SectionTitle>
+      <SectionTitle>You are taking the {examName} Exam.</SectionTitle>
       <p>
-        There are {totalQuestions} questions on the {examType} exam. You must
-        get {requiredCorrect} questions correct in order to pass.
+        There are {numQuestions} questions on the {examName} exam. You must get{" "}
+        {passingScore} questions correct in order to pass.
       </p>
 
       <p>

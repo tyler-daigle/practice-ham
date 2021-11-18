@@ -1,7 +1,8 @@
 import Container from "./UI/Container";
 import QuestionList from "./QuestionList";
 
-export default function Exam({ examName, questionList }) {
+export default function Exam({ examData, questionList }) {
+  const { examName } = examData;
   return (
     <Container>
       <h2>{examName} Exam</h2>

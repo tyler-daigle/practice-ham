@@ -59,14 +59,13 @@ function Home({
         return <ExamSelector onExamChange={selectExam} />;
 
       case 1:
-        return <ExamStatus currentExam={currentExam} />;
+        return <ExamStatus examData={currentExam} />;
+
+      case 2:
+        return <Exam examData={currentExam} questionList={questionList} />;
 
       default:
-        if (currentExam === "technician") {
-          return <Exam examName={currentExam} questionList={questionList} />;
-        } else {
-          return <h1>No more screens</h1>;
-        }
+        return <h1>No more screens</h1>;
     }
   };
   return (
