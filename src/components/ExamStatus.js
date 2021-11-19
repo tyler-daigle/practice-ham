@@ -7,8 +7,6 @@ const SectionTitle = styled.h3`
 `;
 
 export default function ExamStatus({ examData }) {
-  const totalQuestions = 35;
-  const requiredCorrect = 26;
   const { examName, numQuestions, passingScore } = examData;
 
   return (
