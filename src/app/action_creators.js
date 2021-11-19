@@ -120,3 +120,9 @@ export const setLoadingMessage = (msg) => {
     payload: msg,
   };
 };
+
+export const resetApp = () => {
+  return {
+    type: Actions.APP_RESET,
+  };
+};

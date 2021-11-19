@@ -20,6 +20,8 @@ const Button = styled.button`
         return "1rem";
     }
   }};
+  display: ${(props) => props.display || "inline"};
+  width: ${(props) => props.width || "auto"};
   cursor: pointer;
   &:active {
     background-color: #84b6b9;

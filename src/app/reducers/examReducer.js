@@ -63,6 +63,17 @@ function examReducer(state = {}, action) {
         answerList: { ...action.payload },
       };
     }
+
+    case Actions.APP_RESET: {
+      return {
+        currentExam: "",
+        questionList: [],
+        answeredQuestions: [],
+        isLoading: false,
+        currentScreen: 0,
+        loadingMessage: "",
+      };
+    }
     default:
       return state;
   }
