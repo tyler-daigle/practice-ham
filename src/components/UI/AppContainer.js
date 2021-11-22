@@ -7,6 +7,10 @@ const AppContainer = styled.div`
   height: 90vh;
   padding-bottom: 2rem;
   justify-content: space-between;
+
+  @media (min-width: 1080px) {
+    width: 50%;
+  }
 `;
 
 export default AppContainer;

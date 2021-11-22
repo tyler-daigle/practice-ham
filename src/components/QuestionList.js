@@ -7,6 +7,7 @@ import styled from "styled-components";
 import Button from "./UI/Button";
 
 const QuestionListContainer = styled.div`
+  width: 100%;
   padding: 1rem;
 `;
 
@@ -19,12 +20,13 @@ const ButtonContainer = styled.div`
 const QuestionDetailsContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  border-bottom: solid 2px var(--secondary-text-color);
 `;
 
-const SectionDetailsContainer = styled.div`
-  border-bottom: solid 2px var(--secondary-text-color);
-  margin-bottom: 1rem;
-`;
+// const SectionDetailsContainer = styled.div`
+//   border-bottom: solid 2px var(--secondary-text-color);
+//   margin-bottom: 1rem;
+// `;
 
 function QuestionList({
   questionList,
@@ -71,7 +73,7 @@ function QuestionList({
 
   return (
     <QuestionListContainer>
-      <SectionDetailsContainer>
+      {/* <SectionDetailsContainer>
         <span>
           <strong>Section A1</strong>
         </span>
@@ -79,7 +81,7 @@ function QuestionList({
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Repellat
           doloremque eos non?
         </p>
-      </SectionDetailsContainer>
+      </SectionDetailsContainer> */}
       <QuestionDetailsContainer>
         <span className="blueText">
           [{questionList[currentQuestion].question_id}]
