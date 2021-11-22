@@ -18,6 +18,12 @@ const GlobalStyles = createGlobalStyle`
   p {
     margin-bottom: 1rem;
   }
+
+  .blueText {
+    color: var(--secondary-text-color);  
+  }
+
+
 `;
 
 export default GlobalStyles;

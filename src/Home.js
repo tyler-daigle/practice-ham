@@ -79,7 +79,7 @@ function Home({
           <MainHeader />
         ) : (
           <PageHeader>
-            <h1>Ham Exam Practice</h1>
+            <h1>{currentExam.examName} Exam</h1>
           </PageHeader>
         )}
         <AppContainer>
