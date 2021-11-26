@@ -1,3 +1,5 @@
+Visit [amateur-radio.school](https://amateur-radio.school) to see the site in action.
+
 # HAM Radio Practice Tests
 
 The purpose of this project is to create a website that allows you to practice for the amateur radio exams. Using this
