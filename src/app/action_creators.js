@@ -2,12 +2,24 @@ import { Contentful } from "../contentful/contentful";
 import Actions from "./actions";
 import ExamTypes from "../util/examTypes";
 
-export const setQuestionList = (currentExam) => {
+export const setQuestionList = () => {
   return async function (dispatch, getState) {
+    const currentExam = getState().currentExam;
     const examName = currentExam.examName;
-
+    console.log("EXAM:", currentExam);
     dispatch(loadingStarted());
-    const testChoices = await Contentful.getTestChoices(examName);
+
+    let licenseClass = "";
+
+    switch (examName) {
+      case ExamTypes.EXTRA:
+        licenseClass = "Extra";
+        break;
+      default:
+        licenseClass = examName;
+    }
+
+    const testChoices = await Contentful.getTestChoices(licenseClass);
 
     // randomly select one of the returned tests
     const randomTest = Math.floor(testChoices.length * Math.random());
@@ -48,6 +60,7 @@ export const setQuestionList = (currentExam) => {
   };
 };
 
+// TODO: It would make more sense if examName was changed to examType - it's not really just a string anymore
 export const setCurrentExam = (examName) => {
   const examData = {};
 

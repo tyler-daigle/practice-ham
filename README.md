@@ -6,7 +6,7 @@ The purpose of this project is to create a website that allows you to practice f
 site you can take an exam that is made up of the same question pools that are provided by the FCC for the real exams.
 You can practice the Technician, General and Amateur Extra exams.
 
-## About 
+## About
 
 The exam data is stored using the CMS **Contentful** and the website is hosted using **Netlify**.
 
@@ -18,8 +18,10 @@ not a great python programmer and the scripts were written quickly for just the 
 ## This is still a work in progress.
 
 I am still working on the website. There are a few more features I want to add, such as:
-  * A results page that will show you which questions you got wrong and what the correct answer is.
-  * An option to grade as you go so as soon as you answer a question it will let you know if it is correct or not.
+
+- A results page that will show you which questions you got wrong and what the correct answer is.
+- An option to grade as you go so as soon as you answer a question it will let you know if it is correct or not.
+- The images that go along with some of the questions have not been added yet.
 
 I also plan on creating some kind of small app that will help upload the data to Contentful. As of right now I am
 uploading the data using a bunch of Node scripts which I manually run.
@@ -32,7 +34,6 @@ All the images I used on the site were purchased from Lukasz Adam. You can see t
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -44,4 +45,3 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.\
 You will also see any lint errors in the console.
-

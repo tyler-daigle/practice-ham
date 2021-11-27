@@ -9,7 +9,7 @@ const AppContainer = styled.div`
   justify-content: space-between;
 
   @media (min-width: 1080px) {
-    width: 50%;
+    width: 70%;
   }
 `;
 

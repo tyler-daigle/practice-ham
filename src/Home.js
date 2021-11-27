@@ -46,10 +46,7 @@ function Home({
   const selectExam = async (exam) => {
     dispatch(setLoadingMessage("Generating your exam..."));
     dispatch(setCurrentExam(exam));
-
-    // TODO: add conditional for selecting the questions based on exam
-    // name. such as general, technician or extra.
-    dispatch(setQuestionList(currentExam));
+    dispatch(setQuestionList());
   };
 
   // getCurrentScreen() is a simple router that just returns

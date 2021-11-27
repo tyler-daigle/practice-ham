@@ -15,6 +15,7 @@ function getTestChoices(licenseClass = "Technician") {
     .getEntries({
       content_type: "exam",
       select: "fields.exam_id",
+      "fields.license_class[match]": licenseClass,
     })
     .then((entries) => entries.items);
 }

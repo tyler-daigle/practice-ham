@@ -51,11 +51,7 @@ export default function ExamSelector({ onExamChange }) {
           83% of all amateur HF bandwidth. However some band segments often used
           for long distance contacts are not included.
         </ExamDescription>
-        <Button
-          size="lg"
-          onClick={() => onExamChange(ExamTypes.GENERAL)}
-          disabled
-        >
+        <Button size="lg" onClick={() => onExamChange(ExamTypes.GENERAL)}>
           General
         </Button>
       </ExamChoice>
@@ -68,11 +64,7 @@ export default function ExamSelector({ onExamChange }) {
           multiple-choice theory exam. Those with Amateur Extra licenses are
           granted all privileges on all US amateur bands.
         </ExamDescription>
-        <Button
-          size="lg"
-          onClick={() => onExamChange(ExamTypes.EXTRA)}
-          disabled
-        >
+        <Button size="lg" onClick={() => onExamChange(ExamTypes.EXTRA)}>
           Extra
         </Button>
       </ExamChoice>
