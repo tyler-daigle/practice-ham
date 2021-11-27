@@ -6,7 +6,7 @@ export const setQuestionList = () => {
   return async function (dispatch, getState) {
     const currentExam = getState().currentExam;
     const examName = currentExam.examName;
-    console.log("EXAM:", currentExam);
+
     dispatch(loadingStarted());
 
     let licenseClass = "";
@@ -43,7 +43,6 @@ export const setQuestionList = () => {
     questionList.forEach((question) => {
       answerList[question.question_id] = question.answer;
     });
-    console.log(answerList);
 
     dispatch({
       type: Actions.QUESTION_LIST_SET,

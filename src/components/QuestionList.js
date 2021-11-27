@@ -47,11 +47,12 @@ function QuestionList({
 
   // handler for when an answer is selected
   const onAnswerChange = (questionId, val) => {
-    if (answerList[questionId] === val) {
-      console.log("Answer Correct");
-    } else {
-      console.log("Answer incorrect.");
-    }
+    // TODO: Add option to check answers as you go
+    // if (answerList[questionId] === val) {
+    //   console.log("Answer Correct");
+    // } else {
+    //   console.log("Answer incorrect.");
+    // }
     dispatch(answerQuestion(questionId, val));
   };
 
@@ -68,8 +69,6 @@ function QuestionList({
     // if they have advance to the next screen
     // if not tell the user and let them answer the questions, or else mark them wrong
   };
-
-  // TODO: Add a prop to Question for the currently selected answer
 
   return (
     <QuestionListContainer>

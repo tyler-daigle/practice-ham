@@ -14,6 +14,10 @@ import thunk from "redux-thunk";
 }
 */
 
+console.warn(
+  "If you are not seeing anything, be sure to disable the Redux Devtool extension in store.js"
+);
+
 const store = createStore(
   examReducer,
   {
@@ -25,8 +29,8 @@ const store = createStore(
     loadingMessage: "",
   },
   compose(
-    applyMiddleware(thunk),
-    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    applyMiddleware(thunk)
+    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 );
 

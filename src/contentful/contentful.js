@@ -1,5 +1,4 @@
 import { createClient } from "contentful";
-console.log(process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN);
 const client = createClient({
   space: process.env.REACT_APP_CONTENTFUL_SPACE_ID,
   accessToken: process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN,
@@ -43,8 +42,6 @@ async function getQuestions(questionIds) {
       "fields.question_id[in]": questionIds.join(","),
     })
     .then((entries) => {
-      // console.log(entries);
-      // console.log(`Got ${entries.items.length} questions.`);
       return entries.items;
     })
     .catch((e) => console.log(e));
